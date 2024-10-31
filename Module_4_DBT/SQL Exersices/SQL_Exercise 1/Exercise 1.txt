@@ -1,0 +1,337 @@
+SQL Exercise 1
+1. Create the table SEMP with the following structure:-
+EMPNO CHAR(4)
+EMPNAME CHAR(20)
+BASIC FLOAT
+DEPTNO CHAR(2)
+DEPTHEAD CHAR(4)
+
+Query:
+create table semp(
+empno char(4),
+empname char(20),
+basic float,
+deptno char(2),
+depthead char(4));
+Query OK, 0 rows affected (0.08 sec)
+
+2. Create the table SDEPT with the following structure:-
+DEPTNO CHAR(2)
+DEPTNAME CHAR(15)
+Query:
+create table sdept(
+deptno char(2),
+deptname char(15));
+
+Query OK, 0 rows affected (0.06 sec)
+
+3. Insert into the SDEPT table the following values:-
+10, Development
+20, Training
+
+Query:
+insert into sdept values(10, 'Development'),(20, 'Training');
+Query OK, 2 rows affected (0.01 sec)
+
++--------+-------------+
+| DEPTNO | DEPTNAME    |
++--------+-------------+
+| 10     | Development |
+| 20     | Training    |
++--------+-------------+
+
+4. Insert into the SEMP table the following values:-
+0001, SUNIL, 6000, 10
+0002, HIREN, 8000, 20
+0003, ALI, 4000, 10, 0001
+0004, GEORGE, 6000, 0002
+
+INSERT INTO SEMP(EMPNO,EMPNAME,BASIC,DEPTNO,DEPTHEAD)
+VALUES (0001,'SUNIL',6000,10,null), 
+(0002,'HIREN',8000,20,null),
+(0003,'ALI',4000,10,0001),    
+(0004,'GEORGE',6000,null,0002); 
+output:
++-------+---------+-------+--------+----------+
+| EMPNO | EMPNAME | BASIC | DEPTNO | DEPTHEAD |
++-------+---------+-------+--------+----------+
+| 1     | SUNIL   |  6000 | 10     | NULL     |
+| 2     | HIREN   |  8000 | 20     | NULL     |
+| 3     | ALI     |  4000 | 10     | 1        |
+| 4     | GEORGE  |  6000 | NULL   | 2        |
++-------+---------+-------+--------+----------+
+
+--------------------------------------------------------------------------------------------------------------------------
+Create S, P, J, SPJ tables as specified below and insert a few rows in each table:-
+S
+SUPPLIER
+CREATE TABLE S (
+SNO char(10),
+SNAME char(40),
+STATUS int,
+CITY char(30));
+Query OK, 0 rows affected (0.05 sec)
+
+
+INSERT INTO S(Sno,Sname,status,city)
+values
+('S1', 'Rahul', 20, 'London'),
+('S2', 'Siddh', 10, 'Paris'),
+('S4', 'Dinesh', 30, 'London'),
+('S3', 'Rohit', 15,'Athens'),
+('S5', 'Virat', 40, 'paris');
+
++------+--------+--------+--------+
+| SNO  | SNAME  | STATUS | CITY   |
++------+--------+--------+--------+
+| S1   | Rahul  |     20 | London |
+| S2   | Siddh  |     10 | Paris  |
+| S4   | Dinesh |     30 | London |
+| S3   | Rohit  |     15 | Athens |
+| S5   | Virat  |     40 | paris  |
++------+--------+--------+--------+
+
+----------------------------------------------------------------------------------------------------------------------
+P
+PARTS
+(P#, Pname, Color, Weight, City)
+Query:
+create table P (
+pno char(25),
+pname char(25),
+color char(25),
+weight float,
+city char(20));
+
+
+INSERT INTO P(pno, pname, color, weight, city)
+values('P1', 'NUT', 'red', 12, 'London'),
+('P2', 'BOLT', 'green', 17, 'paris'),
+('P3', 'Screw', 'Blue', 17,'Athens'),
+('P4', 'Corn', 'red', 20, 'London'),
+('P5', 'Log', 'Blue', 18, 'Athens');
+
+output:
+
++------+-------+-------+--------+--------+
+| pno  | pname | color | weight | city   |
++------+-------+-------+--------+--------+
+| P1   | NUT   | red   |     12 | London |
+| P2   | BOLT  | green |     17 | paris  |
+| P3   | Screw | Blue  |     17 | Athens |
+| P4   | Corn  | red   |     20 | London |
+| P5   | Log   | Blue  |     18 | Athens |
++------+-------+-------+--------+--------+
+
+-----------------------------------------------------------------------------------
+J
+PROJECTS
+(J#, Jname, City)
+
+==>
+Query:
+CREATE TABLE J (
+jno CHAR(4),
+jname VARCHAR(20),
+city VARCHAR(20));
+
+INSERT INTO J (jno, jname, city) VALUES
+('J1', 'Reader', 'London'),
+('J2', 'Collector', 'New York'),
+('J3', 'Terminal', 'Athens'),
+('J4', 'Explorer', 'Berlin'),
+('J5', 'Navigator', 'Athens');
++------+-----------+----------+
+| jno  | jname     | city     |
++------+-----------+----------+
+| J1   | Reader    | London   |
+| J2   | Collector | New York |
+| J3   | Terminal  | Athens   |
+| J4   | Explorer  | Berlin   |
+| J5   | Navigator | Athens   |
++------+-----------+----------+
+-----------------------------------------------------------------------------------------------------------------------------
+
+SUPPLIER-PARTS-PROJECT
+(S#, P#, J#, Qty)
+-
+SPJ
+Sample data for S# column:- ‘S1’, ‘S2’, ‘S3’, etc.
+Sample data for P# column:- ‘P1’, ‘P2’, ‘P3’, etc.
+Sample data for J# column:- ‘J1’, ‘J2’, ‘J3’, etc.
+Sample data for Status column:- 10, 20, 30, etc.
+
+Query:
+create table SPJ(
+sno char(4),
+pno char(4),
+jano Char(4),
+qty int);
+
+INSERT INTO SPJ(pno,sno,jno,qty) VALUES
+('S1', 'P1', 'J1', 10),
+('S1', 'P1', 'J4', 20),
+('S3', 'P3', 'J1', 40),
+('S5', 'P2', 'J4', 50),
+('S6', 'P5', 'J7', 60);
+
++------+------+------+------+
+| sno  | pno  | jno  | qty  |
++------+------+------+------+
+| S1   | P1   | J1   |   10 |
+| S1   | P1   | J4   |   20 |
+| S3   | P3   | J1   |   40 |
+| S5   | P2   | J4   |   50 |
+| S6   | P5   | J7   |   60 |
++------+------+------+------+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+Write the SELECT queries to do the following:-
+5. Display all the data from the S table.
+
+Query:
+select * from s;
++------+--------+--------+--------+
+| SNO  | SNAME  | STATUS | CITY   |
++------+--------+--------+--------+
+| S1   | Rahul  |     20 | London |
+| S2   | Siddh  |     10 | Paris  |
+| S4   | Dinesh |     30 | London |
+| S3   | Rohit  |     15 | Athens |
+| S5   | Virat  |     40 | paris  |
++------+--------+--------+--------+
+
+6. Display only the S# and SNAME fields from the S table.
+mysql> select sno,sname from s;
++------+--------+
+| sno  | sname  |
++------+--------+
+| S1   | Rahul  |
+| S2   | Siddh  |
+| S4   | Dinesh |
+| S3   | Rohit  |
+| S5   | Virat  |
++------+--------+
+5 rows in set (0.00 sec)
+
+7. Display the PNAME and COLOR from the P table for the CITY=”London”.
+
+Query:
+select pname,color from p
+where
+city='london';
+
++-------+-------+
+| pname | color |
++-------+-------+
+| NUT   | red   |
+| Corn  | red   |
++-------+-------+
+
+8. Display all the Suppliers from London.
+Query:
+select * from s
+where
+city='london';
++------+--------+--------+--------+
+| SNO  | SNAME  | STATUS | CITY   |
++------+--------+--------+--------+
+| S1   | Rahul  |     20 | London |
+| S4   | Dinesh |     30 | London |
++------+--------+--------+--------+
+
+9. Display all the Suppliers from Paris or Athens.
+
+Query:
+select * from s
+where city='paris' or city='Athens';
+
++------+-------+--------+--------+
+| SNO  | SNAME | STATUS | CITY   |
++------+-------+--------+--------+
+| S2   | Siddh |     10 | Paris  |
+| S3   | Rohit |     15 | Athens |
+| S5   | Virat |     40 | paris  |
++------+-------+--------+--------+
+
+10. Display all the Projects in Athens.
+
+Query:
+select * from j
+where city='Athens' ;
+
++------+-----------+--------+
+| jno  | jname     | city   |
++------+-----------+--------+
+| J3   | Terminal  | Athens |
+| J5   | Navigator | Athens |
++------+-----------+--------+
+2 rows in set (0.00 sec)
+
+11. Display all the Partnames with the weight between 12 and 14 (inclusive of both).
+Query:
+select pname from p
+where weight between 12 and 14;
+
++-------+
+| pname |
++-------+
+| NUT   |
++-------+
+1 row in set (0.00 sec)
+
+12. Display all the Suppliers with a Status greater than or equal to 20.
+Query:
+select * from s
+where status>=20;
++------+--------+--------+--------+
+| SNO  | SNAME  | STATUS | CITY   |
++------+--------+--------+--------+
+| S1   | Rahul  |     20 | London |
+| S4   | Dinesh |     30 | London |
+| S5   | Virat  |     40 | paris  |
++------+--------+--------+--------+
+3 rows in set (0.00 sec)
+
+13. Display all the Suppliers except the Suppliers from London.
+
+mysql> select * from s
+    -> where
+    -> not city='london';
++------+--------+--------+--------+
+| SNO  | SNAME  | STATUS | CITY   |
++------+--------+--------+--------+
+| S2   | Deepak |     10 | Paris  |
+| S3   | Rajesh |     15 | Athens |
+| S5   | Rakesh |     40 | paris  |
++------+--------+--------+--------+
+3 rows in set (0.00 sec)
+
+14. Display only the Cities from where the Suppliers come from.
+Query:
+select city from s;
++--------+
+| city   |
++--------+
+| London |
+| Paris  |
+| London |
+| Athens |
+| paris  |
++--------+
+5 rows in set (0.00 sec)
+
+15. Assuming that the Part Weight is in GRAMS, display the same in MILLIGRAMS and KILOGRAMS.
+
+
+select weight, weight*1000 as Kilogram_weight, weight/1000 as miligram_weight from p;
++--------+-----------------+-----------------+
+| weight | Kilogram_weight | miligram_weight |
++--------+-----------------+-----------------+
+|     12 |           12000 |           0.012 |
+|     17 |           17000 |           0.017 |
+|     17 |           17000 |           0.017 |
+|     20 |           20000 |            0.02 |
+|     18 |           18000 |           0.018 |
++--------+-----------------+-----------------+
