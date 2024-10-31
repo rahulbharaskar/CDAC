@@ -1,0 +1,100 @@
+	Assignment – 9
+ Querying Multiple Tables at Once.
+
+ 1) Write a query that lists each order number followed by the name of the customer 
+who made the order. 
+query:
+select onum, cname
+from orders onum, customers cnum
+where cnum.cnum = onum.cnum;
+Query: with aliases
+select onum, cname
+from orders o, customers c
+where c.cnum = o.cnum;
++------+----------+
+| onum | cname    |
++------+----------+
+| 3001 | Cisneros |
+| 3003 | Hoffman  |
+| 3002 | Pereira  |
+| 3005 | Liu      |
+| 3006 | Cisneros |
+| 3009 | Giovanni |
+| 3007 | Grass    |
+| 3008 | Class    |
+| 3010 | Grass    |
+| 3011 | Class    |
++------+----------+
+10 rows in set (0.01 sec)
+
+
+2) Write a query that gives the names of both the salesperson and the customer for 
+each order along with the order number. 
+Query:
+SELECT sname,cname, onum
+FROM orders o,customers c,salespeople s
+WHERE o.snum=c.snum AND o.snum=s.snum;
+
++---------+----------+------+
+| sname   | cname    | onum |
++---------+----------+------+
+| Rifkin  | Cisneros | 3001 |
+| Rifkin  | Class    | 3001 |
+| Peel    | Grass    | 3003 |
+| Peel    | Hoffman  | 3003 |
+| Motika  | Pereira  | 3002 |
+| Serres  | Liu      | 3005 |
+| Rifkin  | Cisneros | 3006 |
+| Rifkin  | Class    | 3006 |
+| Axelrod | Giovanni | 3009 |
+| Serres  | Liu      | 3007 |
+| Peel    | Grass    | 3008 |
+| Peel    | Hoffman  | 3008 |
+| Serres  | Liu      | 3010 |
+| Peel    | Grass    | 3011 |
+| Peel    | Hoffman  | 3011 |
++---------+----------+------+
+15 rows in set (0.00 sec)
+  
+3) Write a query that produces all customers serviced by salespeople with a 
+commission above 12%. Output the customer’s name, the salesperson’s name, and the salesperson’s rate of commission.
+
+Query:
+select cname,snum,
+comm*100 "RATE OF COMM."
+from customers
+join salespeople using (snum)
+where comm > 0.12;
++----------+------+---------------+
+| cname    | snum | RATE OF COMM. |
++----------+------+---------------+
+| Liu      | 1002 |         13.00 |
+| Class    | 1007 |         15.00 |
+| Cisneros | 1007 |         15.00 |
++----------+------+---------------+
+3 rows in set (0.01 sec)
+ 
+4) Write a query that calculates the amount of the salesperson’s commission on each 
+order by a customer with a rating above 100.
+
+Query: 
+SELECT amt, comm
+FROM salespeople
+JOIN customers using(snum)
+JOIN orders using(snum)
+WHERE rating>100;
++---------+------+
+| amt     | comm |
++---------+------+
+|   18.69 | 0.15 |
+|  767.19 | 0.12 |
+| 5160.45 | 0.13 |
+| 1098.16 | 0.15 |
+| 1713.23 | 0.10 |
+|   75.75 | 0.13 |
+| 4723.00 | 0.12 |
+| 1309.95 | 0.13 |
+| 9891.88 | 0.12 |
++---------+------+
+9 rows in set (0.02 sec)
+

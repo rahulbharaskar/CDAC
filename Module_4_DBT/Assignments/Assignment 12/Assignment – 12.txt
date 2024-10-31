@@ -1,0 +1,80 @@
+Assignment – 12  
+Using the operators IN, ANY, and ALL.  
+
+1) Write a query that selects all customers whose ratings are equal to or greater than 
+ANY of Serres’.
+
+Query:
+SELECT * FROM customers
+WHERE rating >= ANY (SELECT rating  FROM customers
+WHERE snum IN (SELECT snum FROM salespeople WHERE sname = 'Serres' ));
+
++------+----------+----------+--------+------+
+| Cnum | Cname    | City     | Rating | Snum |
++------+----------+----------+--------+------+
+| 2002 | Giovanni | Rome     |    200 | 1003 |
+| 2003 | Liu      | San Jose |    200 | 1002 |
+| 2004 | Grass    | Berlin   |    300 | 1001 |
+| 2008 | Cisneros | San Jose |    300 | 1007 |
++------+----------+----------+--------+------+
+4 rows in set (0.00 sec)
+
+2) Write a query using ANY or ALL that will find all salespeople who have no customers located in their city.
+
+Query:
+SELECT SNAME , CITY FROM SALESPEOPLE
+ WHERE CITY <> ALL(SELECT CITY FROM CUSTOMERS);
++---------+-----------+
+| SNAME   | CITY      |
++---------+-----------+
+| Rifkin  | Barcelona |
+| Axelrod | New York  |
++---------+-----------+
+2 rows in set (0.00 sec)
+
+  
+3) Write a query that selects all orders for amounts greater than any for the customers in London. 
+SELECT Cnum , Onum , AMT FROM Orders
+WHERE AMT > ANY(SELECT Cnum FROM CUSTOMERS WHERE CITY = 'london');
+
++------+------+---------+
+| Cnum | Onum | AMT     |
++------+------+---------+
+| 2003 | 3005 | 5160.45 |
+| 2006 | 3008 | 4723.00 |
+| 2006 | 3011 | 9891.88 |
++------+------+---------+
+3 rows in set (0.08 sec)
+
+ 
+4) Write the above query using MIN or MAX. 
+
+Query: using min:
+SELECT Cnum, Onum, AMT
+FROM Orders
+WHERE AMT > (SELECT MIN(Cnum) FROM Customers  WHERE City = 'London');
++------+------+---------+
+| Cnum | Onum | AMT     |
++------+------+---------+
+| 2003 | 3005 | 5160.45 |
+| 2006 | 3008 | 4723.00 |
+| 2006 | 3011 | 9891.88 |
++------+------+---------+
+3 rows in set (0.01 sec)
+
+Query: using max:
+
+SELECT Cnum, Onum, AMT
+FROM Orders
+WHERE AMT > (SELECT MAX(Cnum) FROM Customers  WHERE City = 'London');
+
++------+------+---------+
+| Cnum | Onum | AMT     |
++------+------+---------+
+| 2003 | 3005 | 5160.45 |
+| 2006 | 3008 | 4723.00 |
+| 2006 | 3011 | 9891.88 |
++------+------+---------+
+3 rows in set (0.00 sec)
+                        
+

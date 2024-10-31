@@ -1,0 +1,100 @@
+Assignment 15
+
+Using Subqueries with DML Commands.
+
+1) Assume there is a table called Multicust, with all of the same column definitions 
+as Salespeople. Write a command that inserts all salespeople with more than one 
+customer into this table. 
+
+create table Multicust as select * from salespeople;
+truncate multicust;
+
+INSERT INTO Multicust (Snum, Sname, City, Comm) 
+SELECT Snum, Sname, City, Comm  
+FROM SALESPEOPLE  
+WHERE Snum IN (SELECT Snum FROM CUSTOMERS GROUP BY Snum HAVING COUNT(*) > 1);
+
+mysql> select * from multicust;
++------+--------+-----------+------+
+| Snum | Sname  | City      | Comm |
++------+--------+-----------+------+
+| 1001 | Peel   | London    | 0.12 |
+| 1004 | Motika | London    | 0.11 |
+| 1007 | Rifkin | Barcelona | 0.15 |
++------+--------+-----------+------+
+3 rows in set (0.00 sec)
+
+2) Write a command that deletes all customers with no current orders. 
+explanation: when i try direct delete command then i found nothing happened in table or we can se that all customers are present in orders table that's why i insert row in customers and after that perform delete query.
+ 
+Query: inserting value in table
+INSERT INTO customers
+VALUES(2012,'Rahul','Jalna',250,1005);
++------+----------+----------+--------+------+
+| Cnum | Cname    | City     | Rating | Snum |
++------+----------+----------+--------+------+
+| 2001 | Hoffman  | London   |    100 | 1001 |
+| 2002 | Giovanni | Rome     |    300 | 1003 |
+| 2003 | Liu      | San Jose |    200 | 1004 |
+| 2004 | Grass    | Berlin   |    300 | 1001 |
+| 2006 | Class    | Landon   |    100 | 1007 |
+| 2008 | Cisneros | San Jose |    300 | 1007 |
+| 2007 | Pereira  | Rome     |    200 | 1004 |
+| 2012 | Rahul    | Jalna    |    250 | 1005 |
++------+----------+----------+--------+------+
+8 rows in set (0.00 sec)
+
+Query:      
+DELETE FROM CUSTOMERS  
+WHERE Cnum NOT IN (SELECT Cnum FROM ORDERS); 
+Query OK, 1 row affected (0.02 sec)
++------+----------+----------+--------+------+
+| Cnum | Cname    | City     | Rating | Snum |
++------+----------+----------+--------+------+
+| 2001 | Hoffman  | London   |    100 | 1001 |
+| 2002 | Giovanni | Rome     |    300 | 1003 |
+| 2003 | Liu      | San Jose |    200 | 1004 |
+| 2004 | Grass    | Berlin   |    300 | 1001 |
+| 2006 | Class    | Landon   |    100 | 1007 |
+| 2008 | Cisneros | San Jose |    300 | 1007 |
+| 2007 | Pereira  | Rome     |    200 | 1004 |
++------+----------+----------+--------+------+
+7 rows in set (0.00 sec)
+
+3) Write a command that increases by twenty percent the commissions of all 
+salespeople with total orders above Rs. 3,000.
+
+Query:
+UPDATE SALESPEOPLE  
+SET Comm = Comm * 1.20  
+WHERE Snum IN (SELECT Snum FROM ORDERS GROUP BY Snum HAVING SUM(Amt) > 3000); 
+
++------+---------+-----------+------+
+| Snum | Sname   | City      | Comm |
++------+---------+-----------+------+
+| 1001 | Peel    | London    | 0.14 |
+| 1002 | Serres  | San Jose  | 0.16 |
+| 1004 | Motika  | London    | 0.11 |
+| 1007 | Rifkin  | Barcelona | 0.15 |
+| 1003 | Axelrod | New York  | 0.10 |
+| 1100 | Blanco  | san Jose  | NULL |
++------+---------+-----------+------+
+6 rows in set (0.00 sec)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
